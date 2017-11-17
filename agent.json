@@ -14,7 +14,7 @@
       "required": false,
       "grantType": "AUTH_CODE_GRANT"
     },
-    "voiceType": "FEMALE_1",
+    "voiceType": "MALE_1",
     "capabilities": [],
     "protocolVersion": "V2"
   },

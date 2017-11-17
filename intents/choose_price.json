@@ -1,40 +1,35 @@
 {
   "userSays": [
     {
-      "id": "b99a9fe4-7ad1-450f-90fa-52358e421d8a",
+      "id": "79d2cf29-cbae-4960-b2af-f1889d86c240",
       "data": [
         {
-          "text": "Piramid Facts"
+          "text": "Bitcoin Price"
         }
       ],
       "isTemplate": false,
       "count": 0
     },
     {
-      "id": "badb1d53-82ca-457c-8629-0515c6af9c9a",
+      "id": "d9f02a0c-f548-4f14-ab1c-8814ba63149e",
       "data": [
         {
-          "text": "Piramids"
+          "text": "Current Price"
         }
       ],
       "isTemplate": false,
       "count": 0
     }
   ],
-  "id": "9e48b324-029e-4bf7-b30f-21f24779b247",
-  "name": "choose_piramids",
+  "id": "28982dc9-c96b-4ab4-9f6d-a476ad5f57cf",
+  "name": "choose_price",
   "auto": true,
   "contexts": [],
   "responses": [
     {
       "resetContexts": false,
-      "action": "tell.piramid.fact",
+      "action": "tell.price",
       "affectedContexts": [
-        {
-          "name": "choose_piramids-followup",
-          "parameters": {},
-          "lifespan": 2
-        }
       ],
       "parameters": [],
       "messages": [

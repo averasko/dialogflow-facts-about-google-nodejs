@@ -26,7 +26,8 @@ const Actions = {
   UNRECOGNIZED_DEEP_LINK: 'deeplink.unknown',
   TELL_FACT: 'tell.fact',
   TELL_CAT_FACT: 'tell.cat.fact',
-  TELL_PIRAMID_FACT: 'tell.piramid.fact'
+  TELL_PIRAMID_FACT: 'tell.piramid.fact',
+  TELL_PRICE: 'tell.price'
 };
 /** Dialogflow Parameters {@link https://dialogflow.com/docs/actions-and-parameters#parameters} */
 const Parameters = {
@@ -306,12 +307,33 @@ const tellPiramidFact = app => {
   app.ask(richResponse, strings.general.noInputs);
 };
 
+/**
+ * Say price
+ * @param {DialogflowApp} app DialogflowApp instance
+ * @return {void}
+ */
+const tellPrice = app => {
+  //const data = initData(app);
+
+  const fact = "Bitcoin is worth 7000 USD... or not?";
+  /** @type {boolean} */
+  const factPrefix = "Check this out, dude!";
+
+  //if (!screenOutput) {
+    // <speak></speak> is needed here since factPrefix is a SSML string and contains audio
+    return app.ask(`<speak>${concat([factPrefix, fact])}</speak>`, strings.general.noInputs);
+  //}
+  // const richResponse = app.buildRichResponse().addSimpleResponse(`<speak>${factPrefix}</speak>`);
+  // app.ask(richResponse, strings.general.noInputs);
+};
+
 /** @type {Map<string, function(DialogflowApp): void>} */
 const actionMap = new Map();
 actionMap.set(Actions.UNRECOGNIZED_DEEP_LINK, unhandledDeepLinks);
 actionMap.set(Actions.TELL_FACT, tellFact);
 actionMap.set(Actions.TELL_CAT_FACT, tellCatFact);
 actionMap.set(Actions.TELL_PIRAMID_FACT, tellPiramidFact);
+actionMap.set(Actions.TELL_PRICE, tellPrice);
 
 /**
  * The entry point to handle a http request

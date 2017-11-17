@@ -1,0 +1,53 @@
+{
+  "userSays": [
+    {
+      "id": "B99A9FE4-7AD1-450F-90FA-52358E421D8A",
+      "data": [
+        {
+          "text": "Piramid Facts"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "BADB1D53-82CA-457C-8629-0515C6AF9C9A",
+      "data": [
+        {
+          "text": "Piramids"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    }
+  ],
+  "id": "9e48b324-029e-4bf7-b30f-21f24779b247",
+  "name": "choose_piramids",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "action": "tell.piramid.fact",
+      "affectedContexts": [
+        {
+          "name": "choose_piramids-followup",
+          "parameters": {},
+          "lifespan": 2
+        }
+      ],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "speech": []
+        }
+      ]
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": true,
+  "webhookForSlotFilling": false,
+  "fallbackIntent": false,
+  "events": []
+}

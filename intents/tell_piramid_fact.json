@@ -1,0 +1,57 @@
+{
+  "userSays": [
+    {
+      "id": "34c31299-9c8c-4992-9fc8-b4f6c9b48d69",
+      "data": [
+        {
+          "text": "yes"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "da13d9fc-30ce-4135-8c64-5415c4d2aa7c",
+      "data": [
+        {
+          "text": "sure"
+        }
+      ],
+      "isTemplate": false,
+      "count": 2
+    }
+  ],
+  "id": "df9c12cf-6b81-4338-9d30-237eb5d74215",
+  "parentId": "9e48b324-029e-4bf7-b30f-21f24779b247",
+  "rootParentId": "9e48b324-029e-4bf7-b30f-21f24779b247",
+  "name": "tell_piramid_fact",
+  "auto": true,
+  "contexts": [
+    "choose_piramids-followup"
+  ],
+  "responses": [
+    {
+      "resetContexts": false,
+      "action": "tell.piramid.fact",
+      "affectedContexts": [
+        {
+          "name": "choose_piramids-followup",
+          "parameters": {},
+          "lifespan": 5
+        }
+      ],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "speech": []
+        }
+      ]
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": true,
+  "webhookForSlotFilling": false,
+  "fallbackIntent": false,
+  "events": []
+}

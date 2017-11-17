@@ -25,7 +25,8 @@ process.env.DEBUG = 'actions-on-google:*';
 const Actions = {
   UNRECOGNIZED_DEEP_LINK: 'deeplink.unknown',
   TELL_FACT: 'tell.fact',
-  TELL_CAT_FACT: 'tell.cat.fact'
+  TELL_CAT_FACT: 'tell.cat.fact',
+  TELL_PIRAMID_FACT: 'tell.piramid.fact'
 };
 /** Dialogflow Parameters {@link https://dialogflow.com/docs/actions-and-parameters#parameters} */
 const Parameters = {
@@ -34,7 +35,8 @@ const Parameters = {
 /** Dialogflow Contexts {@link https://dialogflow.com/docs/contexts} */
 const Contexts = {
   FACTS: 'choose_fact-followup',
-  CATS: 'choose_cats-followup'
+  CATS: 'choose_cats-followup',
+  PIRAMIDS: 'choose_piramids-followup'
 };
 /** Dialogflow Context Lifespans {@link https://dialogflow.com/docs/contexts#lifespan} */
 const Lifespans = {
@@ -256,11 +258,60 @@ const tellCatFact = app => {
   app.ask(richResponse, strings.general.noInputs);
 };
 
+/**
+ * Say a piramid fact
+ * @param {DialogflowApp} app DialogflowApp instance
+ * @return {void}
+ */
+const tellPiramidFact = app => {
+  const data = initData(app);
+  if (!data.facts.piramids) {
+    data.facts.piramids = strings.piramids.facts.slice();
+  }
+  const piramidFacts = data.facts.piramids;
+  const fact = getRandomFact(piramidFacts);
+  /** @type {boolean} */
+  const screenOutput = app.hasSurfaceCapability(app.SurfaceCapabilities.SCREEN_OUTPUT);
+  if (!fact) {
+    // Add facts context to outgoing context list
+    app.setContext(Contexts.FACTS, Lifespans.DEFAULT, {});
+    // Replace outgoing cat-facts context with lifespan = 0 to end it
+    app.setContext(Contexts.PIRAMIDS, Lifespans.END, {});
+    if (!screenOutput) {
+      return app.ask(strings.transitions.piramids.heardItAll, strings.general.noInputs);
+    }
+    const richResponse = app.buildRichResponse()
+      .addSimpleResponse(strings.transitions.piramids.heardItAll, strings.general.noInputs)
+      .addSuggestions(strings.general.suggestions.confirmation);
+
+    return app.ask(richResponse);
+  }
+  const factPrefix = sprintf(strings.piramids.factPrefix, getRandomValue(strings.piramids.sounds));
+  if (!screenOutput) {
+    // <speak></speak> is needed here since factPrefix is a SSML string and contains audio
+    return app.ask(`<speak>${concat([factPrefix, fact, strings.general.nextFact])}</speak>`, strings.general.noInputs);
+  }
+  const image = getRandomValue(strings.piramids.images);
+  const [url, name] = image;
+  const card = app.buildBasicCard(fact)
+    .setImage(url, name)
+    .addButton(strings.general.linkOut, strings.piramids.link);
+
+  const richResponse = app.buildRichResponse()
+    .addSimpleResponse(`<speak>${factPrefix}</speak>`)
+    .addBasicCard(card)
+    .addSimpleResponse(strings.general.nextFact)
+    .addSuggestions(strings.general.suggestions.confirmation);
+
+  app.ask(richResponse, strings.general.noInputs);
+};
+
 /** @type {Map<string, function(DialogflowApp): void>} */
 const actionMap = new Map();
 actionMap.set(Actions.UNRECOGNIZED_DEEP_LINK, unhandledDeepLinks);
 actionMap.set(Actions.TELL_FACT, tellFact);
 actionMap.set(Actions.TELL_CAT_FACT, tellCatFact);
+actionMap.set(Actions.TELL_PIRAMID_FACT, tellPiramidFact);
 
 /**
  * The entry point to handle a http request

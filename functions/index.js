@@ -307,24 +307,47 @@ const tellPiramidFact = app => {
   app.ask(richResponse, strings.general.noInputs);
 };
 
+var request = require('sync-request');
+
+function extractPrice(data) {
+  const marker = "price\":\"";
+  const start = data.search(marker);
+  var price = data.substring(start + marker.length);
+  const end = price.search("\"");
+  price = price.substring(0, end);
+  return price;
+}
+
 /**
  * Say price
  * @param {DialogflowApp} app DialogflowApp instance
  * @return {void}
  */
 const tellPrice = app => {
-  //const data = initData(app);
+  const url = "https://api.gdax.com/products/btc-usd/ticker";
 
-  const fact = "Bitcoin is worth 7000 USD... or not?";
+  var options = {
+    method: 'GET',
+    url : url,
+    "headers": {
+      "User-Agent" : "curl/7.40.0"
+    }
+  };
+
+  var res = request('GET', url, options);
+  const errorCode = res.statusCode;
+  const data = res.body.toString('utf-8');
+
+  const price = extractPrice(data);
+
+  const fact = "Bitcoin is worth " + price + " USD.";
+
+  console.log(`Bitcoin fact: ${fact}`);
+
   /** @type {boolean} */
   const factPrefix = "Check this out, dude!";
 
-  //if (!screenOutput) {
-    // <speak></speak> is needed here since factPrefix is a SSML string and contains audio
-    return app.ask(`<speak>${concat([factPrefix, fact])}</speak>`, strings.general.noInputs);
-  //}
-  // const richResponse = app.buildRichResponse().addSimpleResponse(`<speak>${factPrefix}</speak>`);
-  // app.ask(richResponse, strings.general.noInputs);
+  return app.ask(`<speak>${concat([factPrefix, fact])}</speak>`, strings.general.noInputs);
 };
 
 /** @type {Map<string, function(DialogflowApp): void>} */
